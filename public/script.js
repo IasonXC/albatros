@@ -60,7 +60,6 @@ function logout() {
   window.location = "/login.html";
 }
 
-// φορτώνει προηγούμενα μηνύματα
 fetch("/messages")
   .then((res) => res.json())
   .then((data) => data.forEach(render));

@@ -1,135 +1,150 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
-
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
-  background: #f1f3f4;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Backgrounds */
+.login-body {
+  background: url('clean-login-bg.png') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.chat-body {
+  background: url('clean-login-bg.png') no-repeat center center fixed;
+  background-size: cover;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.login-page {
-  background: #f1f3f4;
-}
-
-.login-box {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  width: 300px;
-  margin: auto;
-}
-
-.login-box input {
+/* Login */
+.login-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
   margin: 10px 0;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #dadce0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
 }
 
-.login-box button {
+button {
+  padding: 12px;
   width: 100%;
-  padding: 10px;
-  background: #1a73e8;
+  background-color: #d81b60;
   border: none;
+  border-radius: 10px;
   color: white;
   font-weight: bold;
-  border-radius: 6px;
   cursor: pointer;
 }
 
+button:hover {
+  background-color: #c2185b;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* Chat */
 .chat-container {
   width: 100%;
-  max-width: 720px;
+  max-width: 700px;
   height: 90vh;
   display: flex;
   flex-direction: column;
-  background: white;
+  background: rgba(255,255,255,0.9);
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 0 2px #f06292;
+  backdrop-filter: blur(8px);
   overflow: hidden;
 }
 
 .chat-header {
+  padding: 16px;
   background: white;
-  padding: 16px 24px;
-  border-bottom: 1px solid #dadce0;
-  font-weight: 500;
-  font-size: 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #202124;
+}
+
+.chat-title {
+  font-size: 22px;
+  color: #d81b60;
+  font-weight: bold;
+  text-align: center;
+  flex: 1;
+}
+
+.chat-btn {
+  background: #f06292;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.chat-btn:hover {
+  background: #ec407a;
 }
 
 .chat-messages {
   flex: 1;
-  padding: 20px;
   overflow-y: auto;
-  background: #f8f9fa;
+  padding: 20px;
+  background: #f9f9f9;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
 .message {
+  background: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
   max-width: 70%;
-  padding: 12px 16px;
-  border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 1px 3px rgba(60,64,67,0.1);
-  color: #202124;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   font-size: 15px;
-  line-height: 1.4;
-  word-wrap: break-word;
 }
 
 .message.me {
   align-self: flex-end;
-  background: #e8f0fe;
-}
-
-.message img {
-  max-width: 100%;
-  margin-top: 6px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  background: #f8bbd0;
 }
 
 .chat-input-area {
   display: flex;
-  align-items: center;
-  gap: 10px;
   padding: 16px;
-  border-top: 1px solid #dadce0;
+  gap: 10px;
   background: white;
+  border-top: 1px solid #ddd;
 }
 
 .chat-input-area input[type="text"] {
   flex: 1;
-  padding: 12px 16px;
+  padding: 10px 16px;
   border-radius: 20px;
-  border: 1px solid #dadce0;
-  font-size: 14px;
-  outline: none;
-}
-
-.chat-input-area button {
-  border: none;
-  background: none;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 8px;
-  transition: background 0.2s ease;
-  border-radius: 50%;
-}
-
-.chat-input-area button:hover {
-  background: #e0e0e0;
+  border: 1px solid #ccc;
 }
 
 .emoji-picker {
@@ -139,16 +154,11 @@ body {
   background: #f1f3f4;
   border-top: 1px solid #dadce0;
   user-select: none;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .emoji-picker span {
   cursor: pointer;
-  margin: 5px;
-}
-
-@media (max-width: 600px) {
-  .chat-container {
-    height: 100vh;
-    border-radius: 0;
-  }
+  margin: 4px;
 }

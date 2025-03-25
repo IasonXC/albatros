@@ -1,71 +1,109 @@
-
 body {
   margin: 0;
-  font-family: sans-serif;
-  background: #ffe0ec;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #ffe0f0, #fff);
 }
 
-.login-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.chat-container {
+  max-width: 600px;
+  margin: auto;
   height: 100vh;
-}
-
-.form {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-input, button {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  font-size: 16px;
-}
-
-button {
-  background: #e91e63;
-  color: white;
-  border: none;
-  cursor: pointer;
 }
 
 .chat-header {
   background: #e91e63;
   color: white;
-  padding: 10px;
+  padding: 12px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.chat-box {
-  height: 70vh;
-  padding: 10px;
-  overflow-y: scroll;
+.chat-messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
   background: #fff0f6;
-}
-
-.msg {
-  background: white;
-  margin: 5px;
-  padding: 10px;
-  border-radius: 10px;
-  max-width: 60%;
-}
-
-.me {
-  background: #f8bbd0;
-  align-self: flex-end;
-}
-
-.chat-input {
   display: flex;
-  gap: 5px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  word-wrap: break-word;
+}
+
+.message.me {
+  align-self: flex-end;
+  background: #f8bbd0;
+}
+
+.message img {
+  max-width: 100%;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
+.chat-input-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 10px;
+  border-top: 1px solid #ddd;
+  background: #fff;
+}
+
+.chat-input-area input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.chat-input-area button {
+  background: #e91e63;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.chat-input-area button:hover {
+  background: #c2185b;
+}
+
+.emoji-picker {
+  padding: 10px;
+  text-align: center;
+  font-size: 20px;
+  background: #fff5f9;
+  border-top: 1px solid #eee;
+  user-select: none;
+}
+
+.emoji-picker span {
+  cursor: pointer;
+  margin: 4px;
+}
+
+@media screen and (max-width: 600px) {
+  .chat-container {
+    border-radius: 0;
+    height: 100vh;
+  }
 }

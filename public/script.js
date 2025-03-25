@@ -1,67 +1,51 @@
-const username = localStorage.getItem("username");
-if (!username) window.location = "/login.html";
-
 const socket = io();
-const messages = document.getElementById("messages");
 const input = document.getElementById("input");
-const emojiPicker = document.getElementById("emojiPicker");
-
-function render(msg) {
-  const div = document.createElement("div");
-  div.className = "message" + (msg.username === username ? " me" : "");
-  div.innerHTML = `<strong>${msg.username}:</strong> ${msg.text || ""}`;
-  if (msg.image) {
-    const img = document.createElement("img");
-    img.src = msg.image;
-    div.appendChild(img);
-  }
-  messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
-}
+const messagesDiv = document.getElementById("messages");
+const username = localStorage.getItem("username");
 
 function send() {
-  const text = input.value.trim();
-  if (!text) return;
-  const msg = { username, text };
-  socket.emit("message", msg);
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  const messageData = {
+    username,
+    text: msg,
+    time: new Date().toLocaleTimeString()
+  };
+
+  socket.emit("chat message", messageData);
   input.value = "";
 }
 
-function sendImage(inputEl) {
-  const file = inputEl.files[0];
-  if (!file) return;
+socket.on("chat message", (data) => {
+  const div = document.createElement("div");
+  div.classList.add("message");
+  if (data.username === username) div.classList.add("me");
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    const msg = { username, image: reader.result };
-    socket.emit("message", msg);
-  };
-  reader.readAsDataURL(file);
-}
-
-function toggleEmoji() {
-  emojiPicker.style.display =
-    emojiPicker.style.display === "none" ? "block" : "none";
-}
-
-emojiPicker.addEventListener("click", (e) => {
-  if (e.target.tagName === "SPAN") {
-    input.value += e.target.textContent;
-    input.focus();
-  }
+  div.innerHTML = `
+    <div class="message-content">
+      <div><strong>${data.username}:</strong> ${data.text}</div>
+      <span class="timestamp">${data.time}</span>
+    </div>`;
+  messagesDiv.appendChild(div);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
 });
 
-input.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") send();
+socket.on("load messages", (allMessages) => {
+  allMessages.forEach(m => {
+    const div = document.createElement("div");
+    div.classList.add("message");
+    if (m.username === username) div.classList.add("me");
+    div.innerHTML = `
+      <div class="message-content">
+        <div><strong>${m.username}:</strong> ${m.text}</div>
+        <span class="timestamp">${m.time}</span>
+      </div>`;
+    messagesDiv.appendChild(div);
+  });
 });
 
 function logout() {
   localStorage.removeItem("username");
-  window.location = "/login.html";
+  window.location.href = "login.html";
 }
-
-fetch("/messages")
-  .then((res) => res.json())
-  .then((data) => data.forEach(render));
-
-socket.on("message", render);

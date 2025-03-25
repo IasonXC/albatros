@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8">
-  <title>Albatros Chat</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Albatros Messenger</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="chat-body">
   <div class="chat-container">
     <div class="chat-header">
-      <span>Albatros Chat</span>
-      <button onclick="logout()">Αποσύνδεση</button>
+      <span class="chat-title">Albatros Messenger</span>
+      <button class="chat-btn" onclick="logout()">Αποσύνδεση</button>
     </div>
 
     <div class="chat-messages" id="messages"></div>
 
     <div class="chat-input-area">
-      <button onclick="toggleEmoji()">😊</button>
-      <input type="file" id="imageInput" accept="image/*" style="display:none;" onchange="sendImage(this)">
-      <button onclick="document.getElementById('imageInput').click()">📷</button>
+      <button class="chat-btn" onclick="toggleEmoji()">😊</button>
+      <input type="file" id="imageInput" accept="image/*" style="display:none;" onchange="sendImage(this)" />
+      <button class="chat-btn" onclick="document.getElementById('imageInput').click()">📷</button>
       <input type="text" id="input" placeholder="Γράψε μήνυμα..." autocomplete="off" />
-      <button onclick="send()">📨</button>
+      <button class="chat-btn" onclick="send()">Αποστολή</button>
     </div>
 
     <div class="emoji-picker" id="emojiPicker" style="display: none;">
-      😀 😃 😄 😁 😆 😍 🥰 😎 😢 😠 👍 👎 🙏 ❤️ 💔 🎉 🎁 💯 💬 😂
+      😀 😃 😄 😍 🥰 😎 😢 😂 🤔 🙏 👍 👎 ❤️ 💔 🎉
     </div>
   </div>
 

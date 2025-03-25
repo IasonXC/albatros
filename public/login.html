@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page">
+  <div class="form">
+    <h2>Σύνδεση</h2>
+    <input id="username" placeholder="Όνομα χρήστη" />
+    <input id="password" type="password" placeholder="Κωδικός" />
+    <button onclick="login()">Είσοδος</button>
+  </div>
+
+  <script>
+    async function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ username, password })
+      });
+      if (res.ok) {
+        localStorage.setItem('username', username);
+        window.location = '/chat.html';
+      } else {
+        alert(await res.text());
+      }
+    }
+  </script>
+</body>
+</html>

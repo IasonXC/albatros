@@ -1,58 +1,48 @@
 const express = require('express');
 const fs = require('fs');
-const path = require('path');
 const http = require('http');
 const bcrypt = require('bcrypt');
 const { Server } = require('socket.io');
-
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+const PORT = 3000;
 
-app.use(express.json());
 app.use(express.static('public'));
+app.use(express.json());
 
-const USERS_FILE = path.join(__dirname, 'users.json');
-const MESSAGES_FILE = path.join(__dirname, 'messages.json');
+const users = [
+  { username: 'Iasonas', password: bcrypt.hashSync('1234', 10) },
+  { username: 'Eleni', password: bcrypt.hashSync('4321', 10) }
+];
 
-function loadUsers() {
-  return JSON.parse(fs.readFileSync(USERS_FILE));
-}
+let messages = [];
 
-function loadMessages() {
-  return JSON.parse(fs.readFileSync(MESSAGES_FILE));
-}
-
-function saveMessages(msgs) {
-  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(msgs, null, 2));
-}
-
-app.post('/login', async (req, res) => {
+app.post('/login', (req, res) => {
   const { username, password } = req.body;
-  const users = loadUsers();
   const user = users.find(u => u.username === username);
-  if (!user) return res.status(401).send('Λανθασμένο όνομα χρήστη');
-  const match = await bcrypt.compare(password, user.password);
-  if (!match) return res.status(401).send('Λανθασμένος κωδικός');
-  res.send('OK');
-});
-
-app.get('/messages', (req, res) => {
-  res.json(loadMessages());
-});
-
-app.delete('/messages', (req, res) => {
-  saveMessages([]);
-  res.send('Διαγράφηκαν όλα τα μηνύματα');
+  if (!user) return res.status(401).send('Δεν υπάρχει αυτός ο χρήστης');
+  if (!bcrypt.compareSync(password, user.password)) {
+    return res.status(401).send('Λάθος κωδικός');
+  }
+  res.send('ok');
 });
 
 io.on('connection', (socket) => {
-  socket.on('message', (data) => {
-    const msgs = loadMessages();
-    msgs.push(data);
-    saveMessages(msgs);
-    io.emit('message', data);
+  console.log('🟢 Νέα σύνδεση');
+
+  socket.emit('load messages', messages);
+
+  socket.on('chat message', (data) => {
+    messages.push(data);
+    io.emit('chat message', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('🔴 Αποσυνδέθηκε');
   });
 });
 
-server.listen(3000, () => console.log("Server running on http://localhost:3000"));
+server.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

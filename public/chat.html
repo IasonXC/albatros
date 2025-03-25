@@ -1,70 +1,34 @@
-
 <!DOCTYPE html>
 <html lang="el">
 <head>
   <meta charset="UTF-8">
-  <title>Chat</title>
+  <title>Albatros Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="chat-header">
-    <h2>💬 Chat - Albatros</h2>
-    <button onclick="logout()">Αποσύνδεση</button>
-  </div>
+  <div class="chat-container">
+    <div class="chat-header">
+      <span>Albatros Chat</span>
+      <button onclick="logout()">Αποσύνδεση</button>
+    </div>
 
-  <div class="chat-box" id="messages"></div>
+    <div class="chat-messages" id="messages"></div>
 
-  <div class="chat-input">
-    <input id="input" placeholder="Γράψε μήνυμα..." />
-    <button onclick="send()">📨</button>
-    <button onclick="clearChat()">🗑️</button>
+    <div class="chat-input-area">
+      <button onclick="toggleEmoji()">😊</button>
+      <input type="file" id="imageInput" accept="image/*" style="display:none;" onchange="sendImage(this)">
+      <button onclick="document.getElementById('imageInput').click()">📷</button>
+      <input type="text" id="input" placeholder="Γράψε μήνυμα..." autocomplete="off" />
+      <button onclick="send()">📨</button>
+    </div>
+
+    <div class="emoji-picker" id="emojiPicker" style="display: none;">
+      😀 😃 😄 😁 😆 😍 🥰 😎 😢 😠 👍 👎 🙏 ❤️ 💔 🎉 🎁 💯 💬 😂
+    </div>
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const username = localStorage.getItem('username');
-    if (!username) location.href = '/login.html';
-
-    const socket = io();
-    const input = document.getElementById('input');
-    const messages = document.getElementById('messages');
-
-    function render(msg) {
-      const div = document.createElement('div');
-      div.className = msg.username === username ? 'msg me' : 'msg';
-      div.innerHTML = '<strong>' + msg.username + ':</strong> ' + msg.text;
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    socket.on('message', render);
-
-    function send() {
-      const text = input.value.trim();
-      if (!text) return;
-      const msg = { username, text };
-      socket.emit('message', msg);
-      input.value = '';
-    }
-
-    function logout() {
-      localStorage.removeItem('username');
-      window.location = '/login.html';
-    }
-
-    function clearChat() {
-      fetch('/messages', { method: 'DELETE' }).then(() => {
-        messages.innerHTML = '';
-      });
-    }
-
-    input.addEventListener('keypress', e => {
-      if (e.key === 'Enter') send();
-    });
-
-    fetch('/messages')
-      .then(res => res.json())
-      .then(data => data.forEach(render));
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
